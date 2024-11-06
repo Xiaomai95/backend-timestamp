@@ -32,25 +32,21 @@ app.get("/api/:date?", (req, res) => {
   //check if date is valid:
   // if (date is unix, assign to variable and use it to assign another variable converted to utc) - Convert with dateMilliseconds.toUTCString()
   let unixRegex = /^[0-9]+$/;
-  if (unixRegex.test(date)) {
-    unixDate = date;
-    let dateMilliseconds = new Date(unixDate * 1000) //*1000 to convert to milliseconds
-    utcDate = dateMilliseconds.toUTCString();
-    
-    
+  if (unixRegex.test(date)) { //if it is a unix
+    unixDate = date * 1; //By * 1, convert string to number
+    utcDate = new Date(parseInt(unixDate)).toUTCString();
     return res.json({unix: unixDate, utc: utcDate})
   } 
     
   else if (!isNaN(Date.parse(date))) {
-    unixDate = Date.parse(date);
-    utcDate = date;
+    unixDate = Date.parse(date) * 1; // By * 1, convert string to number
+    utcDate = utcDate = new Date(parseInt(unixDate)).toUTCString();
     return res.json({unix: unixDate, utc: utcDate})
   }
 
   else if (date == '' || date == null) {
-    unixDate = Date.parse(currentTime);
-    let dateMilliseconds = new Date(unixDate * 1000)
-    utcDate = dateMilliseconds.toUTCString();
+    unixDate = Date.parse(currentTime) * 1; // By * 1, convert string to number
+    utcDate = new Date(parseInt(unixDate)).toUTCString()
     return res.json({unix: unixDate, utc: utcDate})
   }
 
@@ -58,8 +54,6 @@ app.get("/api/:date?", (req, res) => {
     return res.json({error: "Invalid Date"})
   }
 })
-
-
 
 // Listen on port set in environment variable or default to 3000
 var listener = app.listen(process.env.PORT || 3000, function () {
