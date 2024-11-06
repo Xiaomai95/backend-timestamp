@@ -25,13 +25,13 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date?", (req, res) => {
+  
   let date = req.params.date;
   let currentTime = new Date()
   let unixDate = null;
   let utcDate = null;
-  //check if date is valid:
-  // if (date is unix, assign to variable and use it to assign another variable converted to utc) - Convert with dateMilliseconds.toUTCString()
   let unixRegex = /^[0-9]+$/;
+
   if (unixRegex.test(date)) { //if it is a unix
     unixDate = date * 1; //By * 1, convert string to number
     utcDate = new Date(parseInt(unixDate)).toUTCString();
