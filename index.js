@@ -1,14 +1,11 @@
-// index.js
-// where your node app starts
-
 // init project
 var express = require('express');
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
-// so that your API is remotely testable by FCC 
+// so that your API was remotely testable by freeCodeCamp during testing 
 var cors = require('cors');
-app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
+app.use(cors({optionsSuccessStatus: 200}));
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -16,12 +13,6 @@ app.use(express.static('public'));
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
-});
-
-
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
 });
 
 app.get("/api/:date?", (req, res) => {
@@ -38,7 +29,7 @@ app.get("/api/:date?", (req, res) => {
     return res.json({unix: unixDate, utc: utcDate})
   } 
     
-  else if (!isNaN(Date.parse(date))) {
+  else if (!isNaN(Date.parse(date))) { //evaluates true if date is correct format i.e. if isNan is false (meaning date is NOT NaN)
     unixDate = Date.parse(date) * 1; // By * 1, convert string to number
     utcDate = utcDate = new Date(parseInt(unixDate)).toUTCString();
     return res.json({unix: unixDate, utc: utcDate})
